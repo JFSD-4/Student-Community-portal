@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>LMS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+.displaybox {
+	display: flex;
+	height: 100vh;
+}
+
+.courses {
+	background-color: #97CBFA;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.content {
+	background-color: aliceblue;
+	flex: 6;
+}
+
+.maindiv {
+	background-image: linear-gradient(to right, #46414c 0%, #3b4350 100%);
+	width: 0;
+	transition: 0.5s;
+	z-index: 1;
+}
+
+button {
+	margin: 10px !important;
+}
+
+ul {
+	text-align: center;
+}
+
+li {
+	list-style-type: none;
+	margin: 50px !important;
+	color: white;
+	font-size: 40px;
+	display: none;
+}
+</style>
+<!-- CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+	<div>
+		<div class="maindiv">
+			<button onclick="openNav()">
+				<i class="fa fa-bars" aria-hidden="true"></i>
+			</button>
+			<ul class="mynav">
+				<li>HOME</li>
+				<li>LOGOUT</li>
+			</ul>
+		</div>
+		<div class="displaybox">
+			<div class="courses">
+				<br /> <a th:each="sub : ${subjects}" th:text="${sub}"
+					th:href="'/Student/'+${sub}"></a><br />
+			</div>
+
+			<div class="content">
+				<h1 th:text="'Welcome '+${name}"></h1>
+				<h1 id="context">Course Content</h1>
+				<div class="card" th:each="assig : ${assigment}">
+					<a th:text="${assig}"></a>
+					<form action="/upload" method="post" enctype="multipart/form-data">
+						<label for="file">Select files:</label> 
+						<input type="file" id="file" name="file"> <input type="submit">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var navstatus = 0;
+		function openNav() {
+			if (!navstatus) {
+				$('.maindiv').css('width', '25%')
+				$('li').css('display', 'block')
+				navstatus = 1
+			} else {
+				$('.maindiv').css('width', '0')
+				$('li').css('display', 'none')
+				navstatus = 0
+			}
+		}
+	</script>
+</body>
+</html>
